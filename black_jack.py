@@ -61,68 +61,75 @@
 
 from black_jack_art import logo
 import random
+import os
 
 def deal_card():
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
-    return random.choice(cards)
+    card = random.choice(cards)
+    return card
 
 def calculate_score(sum_cards):
-    total_cards = sum(sum_cards)
-    if total_cards == 21:
+    if sum(sum_cards) == 21 and len(sum_cards) == 2:
         return 0
-    elif total_cards > 21:
+    elif sum(sum_cards) > 21:
         for i in sum_cards:
             if i == 11:
-                sum_cards.append(1)
                 sum_cards.remove(11)
-                print('As found and change')
-                print(sum_cards)
-        return total_cards
-    else:
-        return total_cards
+                sum_cards.append(1)
+                print(f'Ace was found and replace {sum_cards}')
+    return sum(sum_cards)
 
 def compare(user_score, computer_score):
-    if user_score == 0 and computer_score == 0:
-        print("It's a Draw")
-    elif user_score == computer_score:
-        print("It's a Draw")
-    elif user_score == 0 or computer_score > 21:
-        print('You Win')
-    elif computer_score == 0 or user_score > 21:
-        print('Computer Wins')
+    if user_score == computer_score:
+        return("It's a Draw")
+    elif user_score == 0:
+        return('You Win with a Blackjack')
+    elif computer_score == 0:
+        return('You Lose, Computer has Blackjack')
+    elif user_score > 21:
+        return('You went over, You Lose!')
+    elif computer_score > 21:
+        return('Computer went over, You Win!')
     elif user_score > computer_score:
-        print('You Win')
+        return('You Win')
     else:
-        print('Computer Wins')
+        return('You Lose')
 
-print(logo)
-user_cards = []
-computer_cards = []
-should_continue = True
-ask_user = True
+def game():
+    print(logo)
+    user_cards = []
+    computer_cards = []
+    is_game_over = False
 
-for i in range(2):
-    user_cards.append(deal_card())
-    computer_cards.append(deal_card())
-
-print(f'User cards: {user_cards}, total: {calculate_score(user_cards)}')
-print(f'Computer cards: {computer_cards}, total: {calculate_score(computer_cards)}')
-
-while should_continue:
-    while ask_user:
-        answer_user = input('Would you like to draw another card? type y or n: ')
-        if answer_user == 'y':
-            user_cards.append(deal_card())
-            print(f'User card added: {user_cards}, total: {calculate_score(user_cards)}')
-        else:
-            ask_user = False
-
-    if calculate_score(computer_cards) < 17:
+    for _ in range(2):
+        user_cards.append(deal_card())
         computer_cards.append(deal_card())
-        print(f'Computer card added: {computer_cards}, total: {calculate_score(computer_cards)}')
-    else:
-        should_continue = False
 
-print(f'Final User cards: {user_cards}, total: {calculate_score(user_cards)}')
-print(f'Final Computer cards: {computer_cards}, total: {calculate_score(computer_cards)}')
-compare(calculate_score(user_cards), calculate_score(computer_cards))
+    print(f'Your first cards: {user_cards}, total: {calculate_score(user_cards)}')
+    print(f'Computer first card: {computer_cards[0]}')
+
+    while not is_game_over:
+        user_score = calculate_score(user_cards)
+        computer_score = calculate_score(computer_cards)
+
+        if user_score == 0 or computer_score == 0 or user_score > 21:
+            is_game_over = True
+        else:
+            answer_user = input('Would you like to draw another card? type y or n: ')
+            if answer_user == 'y':
+                user_cards.append(deal_card())
+                print(f'Your cards: {user_cards}')
+            else:
+                is_game_over = True
+
+    while computer_score != 0 and computer_score < 17:
+        computer_cards.append(deal_card())
+        computer_score = calculate_score(computer_cards)
+
+    print(f'Your final hand: {user_cards}, Final Score: {user_score}')
+    print(f'Computer final hand: {computer_cards}, Final Score: {computer_score}')
+    print(compare(user_score, computer_score))
+
+while input('Do you want to play Blackjack Game? Type y or n: ') == 'y':
+    os.system('cls')
+    game()
