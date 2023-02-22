@@ -81,19 +81,19 @@ def calculate_score(sum_cards):
 
 def compare(user_score, computer_score):
     if user_score == computer_score:
-        return("It's a Draw")
+        return("It's a Draw\n")
     elif user_score == 0:
-        return('You Win with a Blackjack')
+        return('You Win with a Blackjack\n')
     elif computer_score == 0:
-        return('You Lose, Computer has Blackjack')
+        return('You Lose, Computer has Blackjack\n')
     elif user_score > 21:
-        return('You went over, You Lose!')
+        return('You went over, You Lose!\n')
     elif computer_score > 21:
-        return('Computer went over, You Win!')
+        return('Computer went over, You Win!\n')
     elif user_score > computer_score:
-        return('You Win')
+        return('You Win\n')
     else:
-        return('You Lose')
+        return('You Lose\n')
 
 def game():
     print(logo)
@@ -105,12 +105,11 @@ def game():
         user_cards.append(deal_card())
         computer_cards.append(deal_card())
 
-    print(f'Your first cards: {user_cards}, total: {calculate_score(user_cards)}')
-    print(f'Computer first card: {computer_cards[0]}')
-
     while not is_game_over:
         user_score = calculate_score(user_cards)
         computer_score = calculate_score(computer_cards)
+        print(f'Your cards: {user_cards}, Current Score: {user_score}')
+        print(f'Computer first card: {computer_cards[0]}')
 
         if user_score == 0 or computer_score == 0 or user_score > 21:
             is_game_over = True
@@ -118,7 +117,6 @@ def game():
             answer_user = input('Would you like to draw another card? type y or n: ')
             if answer_user == 'y':
                 user_cards.append(deal_card())
-                print(f'Your cards: {user_cards}')
             else:
                 is_game_over = True
 
