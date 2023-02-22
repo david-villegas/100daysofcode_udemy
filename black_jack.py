@@ -63,7 +63,7 @@ from black_jack_art import logo
 import random
 
 def deal_card():
-    cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 15]
+    cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     return random.choice(cards)
 
 def calculate_score(sum_cards):
@@ -76,27 +76,58 @@ def calculate_score(sum_cards):
                 sum_cards.append(1)
                 sum_cards.remove(11)
                 print('As found and change')
+                print(sum_cards)
+        return total_cards
     else:
         return total_cards
 
+def compare(user_score, computer_score):
+    if user_score == 0 and computer_score == 0:
+        print("It's a Draw")
+    elif user_score == computer_score:
+        print("It's a Draw")
+    elif user_score == 0 or computer_score > 21:
+        print('You Win')
+    elif computer_score == 0 or user_score > 21:
+        print('Computer Wins')
+    elif user_score > computer_score:
+        print('You Win')
+    else:
+        print('Computer Wins')
+
 user_cards = []
 computer_cards = []
+should_continue = True
+ask_user = True
 
 for i in range(2):
     user_cards.append(deal_card())
     computer_cards.append(deal_card())
 
-
 print(f'User cards: {user_cards}, total: {calculate_score(user_cards)}')
-print(f'User cards: {computer_cards}, total: {calculate_score(computer_cards)}')
+print(f'Computer cards: {computer_cards}, total: {calculate_score(computer_cards)}')
+# if compare(calculate_score(user_cards), calculate_score(computer_cards)):
+#     should_continue = False
 
-if calculate_score(user_cards) == 0 and calculate_score(computer_cards) == 0:
-    print("It's a Draw")
-elif calculate_score(user_cards) == 0:
-    print('You have a BlackJack, you Win')
-elif calculate_score(computer_cards) == 0:
-    print('Computer has a BlackJack, you Lose')
-elif calculate_score(user_cards) > 21:
-    print('You have Lost')
-elif calculate_score(computer_cards) > 21:
-    print('Computer has Lost')
+while should_continue:
+    while ask_user:
+        answer_user = input('Would you like to draw another card? type y or n: ')
+        if answer_user == 'y':
+            user_cards.append(deal_card())
+            print(f'User cards: {user_cards}, total: {calculate_score(user_cards)}')
+            # compare(calculate_score(user_cards), calculate_score(computer_cards))
+        else:
+            ask_user = False
+
+    if calculate_score(computer_cards) < 17:
+        computer_cards.append(deal_card())
+        print(f'Computer cards: {computer_cards}, total: {calculate_score(computer_cards)}')
+        # compare(calculate_score(user_cards), calculate_score(computer_cards))
+    else:
+        should_continue = False
+
+    # compare(calculate_score(user_cards), calculate_score(computer_cards))
+
+print(f'Final User cards: {user_cards}, total: {calculate_score(user_cards)}')
+print(f'Final Computer cards: {computer_cards}, total: {calculate_score(computer_cards)}')
+compare(calculate_score(user_cards), calculate_score(computer_cards))
