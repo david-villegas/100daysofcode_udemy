@@ -95,6 +95,7 @@ def compare(user_score, computer_score):
     else:
         print('Computer Wins')
 
+print(logo)
 user_cards = []
 computer_cards = []
 should_continue = True
@@ -106,27 +107,21 @@ for i in range(2):
 
 print(f'User cards: {user_cards}, total: {calculate_score(user_cards)}')
 print(f'Computer cards: {computer_cards}, total: {calculate_score(computer_cards)}')
-# if compare(calculate_score(user_cards), calculate_score(computer_cards)):
-#     should_continue = False
 
 while should_continue:
     while ask_user:
         answer_user = input('Would you like to draw another card? type y or n: ')
         if answer_user == 'y':
             user_cards.append(deal_card())
-            print(f'User cards: {user_cards}, total: {calculate_score(user_cards)}')
-            # compare(calculate_score(user_cards), calculate_score(computer_cards))
+            print(f'User card added: {user_cards}, total: {calculate_score(user_cards)}')
         else:
             ask_user = False
 
     if calculate_score(computer_cards) < 17:
         computer_cards.append(deal_card())
-        print(f'Computer cards: {computer_cards}, total: {calculate_score(computer_cards)}')
-        # compare(calculate_score(user_cards), calculate_score(computer_cards))
+        print(f'Computer card added: {computer_cards}, total: {calculate_score(computer_cards)}')
     else:
         should_continue = False
-
-    # compare(calculate_score(user_cards), calculate_score(computer_cards))
 
 print(f'Final User cards: {user_cards}, total: {calculate_score(user_cards)}')
 print(f'Final Computer cards: {computer_cards}, total: {calculate_score(computer_cards)}')
