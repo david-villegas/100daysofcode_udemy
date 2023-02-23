@@ -71,12 +71,10 @@ def deal_card():
 def calculate_score(sum_cards):
     if sum(sum_cards) == 21 and len(sum_cards) == 2:
         return 0
-    elif sum(sum_cards) > 21:
-        for i in sum_cards:
-            if i == 11:
-                sum_cards.remove(11)
-                sum_cards.append(1)
-                print(f'Ace was found and replace {sum_cards}')
+    if 11 in sum_cards and sum(sum_cards) > 21:
+        sum_cards.remove(11)
+        sum_cards.append(1)
+        print(f'Ace was found and replace {sum_cards}')
     return sum(sum_cards)
 
 def compare(user_score, computer_score):
