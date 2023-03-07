@@ -9,21 +9,21 @@
 from art import logo, vs
 from game_data import data
 import random
-import os
+from replit import clear
 
-def import_data(data):
+def import_data():
     return random.choice(data)
 
 
 def game():
+    clear()
+    print(logo)
     points = 0
     end_game = False
-    a_option = import_data(data)
-    b_option = import_data(data)
+    a_option = import_data()
+    b_option = import_data()
 
     while not end_game:
-        os.system('cls')
-        print(logo)
         print(f"Compare A: {a_option['name']}, a {a_option['description']}, from {a_option['country']}")
         print(vs)
         print(f"Compare B: {b_option['name']}, a {b_option['description']}, from {b_option['country']}")
@@ -33,9 +33,9 @@ def game():
             if a_option['follower_count'] > b_option['follower_count']:
                 points += 1
                 print(f"You're right! Current score: {points}")
-                b_option = import_data(data)
+                b_option = import_data()
             else:
-                os.system('cls')
+                clear()
                 print(logo)
                 print(f"Sorry, that's wrong. Final score: {points}")
                 end_game = True
@@ -44,9 +44,9 @@ def game():
                 points += 1
                 print(f"You're right! Current score: {points}")
                 a_option = b_option
-                b_option = import_data(data)
+                b_option = import_data()
             else:
-                os.system('cls')
+                clear()
                 print(logo)
                 print(f"Sorry, that's wrong. Final score: {points}")
                 end_game = True
