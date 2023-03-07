@@ -15,6 +15,13 @@ def import_data():
     return random.choice(data)
 
 
+def check_game(guess, followers_a, followers_b):
+    if followers_a > followers_b:
+        return guess == 'a'
+    else:
+        return guess == 'b'
+
+
 def game():
     clear()
     print(logo)
@@ -24,6 +31,9 @@ def game():
     b_option = import_data()
 
     while not end_game:
+        a_option = b_option
+        b_option = import_data()
+
         while a_option == b_option:
             b_option = import_data()
 
@@ -31,28 +41,17 @@ def game():
         print(vs)
         print(f"Compare B: {b_option['name']}, a {b_option['description']}, from {b_option['country']}")
         guess = input("Who has more followers? Type 'A' or 'B': ")
-
-        if guess.lower() == 'a':
-            if a_option['follower_count'] > b_option['follower_count']:
-                points += 1
-                print(f"You're right! Current score: {points}")
-                b_option = import_data()
-            else:
-                clear()
-                print(logo)
-                print(f"Sorry, that's wrong. Final score: {points}")
-                end_game = True
+        followers_a = a_option['follower_count']
+        followers_b = b_option['follower_count']
+        is_correct = check_game(guess, followers_a, followers_b)
+        clear()
+        print(logo)
+        if is_correct:
+            points += 1
+            print(f"You're right! Current score: {points}")
         else:
-            if b_option['follower_count'] > a_option['follower_count']:
-                points += 1
-                print(f"You're right! Current score: {points}")
-                a_option = b_option
-                b_option = import_data()
-            else:
-                clear()
-                print(logo)
-                print(f"Sorry, that's wrong. Final score: {points}")
-                end_game = True
+            print(f"Sorry, that's wrong. Final score: {points}")
+            end_game = True
 
 
 game()
